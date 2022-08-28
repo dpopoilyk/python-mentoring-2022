@@ -1,10 +1,15 @@
+import os.path
 import re
 import string
 import time
-
+from utils import get_logger
 from collections import Counter
+from typing import Callable
 from datetime import datetime
 from functools import wraps, lru_cache
+
+
+logger = get_logger()
 
 
 def timer(method):
@@ -17,7 +22,7 @@ def timer(method):
         if self._timer_enabled:
             start_time = time.time()
             result = method(self, *args, **kwargs)
-            print(f"Time elapsed for {method.__name__}: {(time.time() - start_time) * 10 ** 6} microseconds")
+            print(f"Time elapsed for {method.__name__}: {round((time.time() - start_time) * 10 ** 6, 2)} microseconds")
         else:
             result = method(self, *args, **kwargs)
 
@@ -30,6 +35,8 @@ class TextAnalyser:
     def __init__(self, text: str, enable_timer: bool = False):
         self._text = text
         self._timer_enabled = enable_timer
+        import time
+        time.sleep(2)
 
     @lru_cache(1)
     def _get_chars_count(self) -> int:
@@ -156,7 +163,7 @@ class TextAnalyser:
         return ' '.join(self._text.split()[::-1])
 
     @timer
-    def print_full_analysis(self):
+    def run_full_analysis(self):
         """prints full analysis"""
         if timer_was_enabled := self._timer_enabled:
             self.disable_timer()
@@ -181,13 +188,38 @@ class TextAnalyser:
             "Reversed text by word": self.text_reversed_words(),
         }
 
-        for k, v in results.items():
-            print(f'{k}: {v}')
-
-        print(f"\nDate of analysis: {datetime.now()}\n")
-
         if timer_was_enabled:
             self._timer_enabled = True
+
+        return results
+
+    def print_full_analysis(self, header: str = None):
+        results = self.run_full_analysis()
+
+        self._represent_result(results, print, header)
+
+
+    def analyse_to_file(self, file_path: str, header: str = None):
+        """
+        run full analysis and write results to file
+        """
+        if not os.path.exists(os.path.dirname(file_path)):
+            logger.error(f'Directory for file write does not exist. Path: [{file_path}]')
+            return
+
+        results = self.run_full_analysis()
+
+        with open(file_path, 'w') as f:
+            self._represent_result(results, f.write, header)
+
+    def _represent_result(self, results: dict, func_to_represent: Callable, header: str = None):
+        if header:
+            func_to_represent(f'{header}\n{"-"*10}\n')
+
+        for k, v in results.items():
+            func_to_represent(f'{k}: {v}\n')
+
+        func_to_represent(f"\nDate of analysis: {datetime.now()}\n")
 
     def enable_timer(self):
         self._timer_enabled = True
