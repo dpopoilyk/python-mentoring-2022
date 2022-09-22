@@ -1,10 +1,13 @@
+import os.path
 import re
 import string
 import time
-
+from utils import get_logger
 from collections import Counter
-from datetime import datetime
 from functools import wraps, lru_cache
+
+
+logger = get_logger(__name__)
 
 
 def timer(method):
@@ -17,7 +20,7 @@ def timer(method):
         if self._timer_enabled:
             start_time = time.time()
             result = method(self, *args, **kwargs)
-            print(f"Time elapsed for {method.__name__}: {(time.time() - start_time) * 10 ** 6} microseconds")
+            print(f"Time elapsed for {method.__name__}: {round((time.time() - start_time) * 10 ** 6, 2)} microseconds")
         else:
             result = method(self, *args, **kwargs)
 
@@ -27,9 +30,12 @@ def timer(method):
 
 
 class TextAnalyser:
-    def __init__(self, text: str, enable_timer: bool = False):
+    def __init__(self, text: str, enable_timer: bool = False, represent_method: callable = None):
         self._text = text
         self._timer_enabled = enable_timer
+        self._represent_method = represent_method
+        if self._represent_method is None:
+            self._represent_method = print
 
     @lru_cache(1)
     def _get_chars_count(self) -> int:
@@ -156,8 +162,12 @@ class TextAnalyser:
         return ' '.join(self._text.split()[::-1])
 
     @timer
-    def print_full_analysis(self):
-        """prints full analysis"""
+    def run_full_analysis(self, represent_results: bool = False):
+        """
+        return results of full analysis of text
+        if represent_results is False, results will be just returned as dict
+        if represent_results is True, results will be also represented
+        """
         if timer_was_enabled := self._timer_enabled:
             self.disable_timer()
 
@@ -181,13 +191,17 @@ class TextAnalyser:
             "Reversed text by word": self.text_reversed_words(),
         }
 
-        for k, v in results.items():
-            print(f'{k}: {v}')
-
-        print(f"\nDate of analysis: {datetime.now()}\n")
-
         if timer_was_enabled:
             self._timer_enabled = True
+
+        if represent_results is True:
+            self._represent_result(results)
+
+        return results
+
+    def _represent_result(self, results: dict):
+        for k, v in results.items():
+            self._represent_method(f'{k}: {v}\n')
 
     def enable_timer(self):
         self._timer_enabled = True
