@@ -36,11 +36,13 @@ def main(file, resource):
         pool.close()
         pool.join()
 
+
 def _metadata_to_extra_logs(metadata: ResourceMeta):
     return {
         "type_of_resource": metadata.type.value,
         "name_of_resource": metadata.name
     }
+
 
 def process_file(file_path, metadata: ResourceMeta = None):
     """
