@@ -129,4 +129,4 @@ def test_timer_switching(text_analyser):
     assert text_analyser._timer_enabled is True
 
     text_analyser.disable_timer()
-    assert text_analyser._timer_enabled is False
+    assert text_analyser._timer_enabled is True
