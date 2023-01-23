@@ -27,5 +27,7 @@ jobs:
         python -m pytest
     - name: Run flake
       run: |
+        pwd
         cd ../../
+        pwd
         python -m flake8 hometasks
