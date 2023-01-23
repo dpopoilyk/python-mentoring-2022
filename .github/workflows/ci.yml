@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.10 and install poetry and dependencies
       - uses: actions/setup-python@v4
+      - name: Set up Python 3.10 and install poetry and dependencies
         with:
           python-version: '3.10'
         run: |
