@@ -25,4 +25,7 @@ jobs:
       run: |
         cd hometasks/text_analyser
         python -m pytest
-      
+    - name: Run flake
+      run: |
+        cd ../../
+        python -m flake8 hometasks
