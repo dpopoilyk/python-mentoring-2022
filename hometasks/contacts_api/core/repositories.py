@@ -14,7 +14,6 @@ class BaseRepository:
 
 
 class ContactsRepository(BaseRepository):
-
     @handle_database_exceptions
     async def _commit_contact(self, contact: Contact):
         self._session.add(contact)
@@ -29,12 +28,12 @@ class ContactsRepository(BaseRepository):
 
     @handle_database_exceptions
     async def get_contacts(
-            self,
-            order_by: ContactFields = None,
-            order_direction: OrderDirection = None,
-            filters: dict = None,
-            offset: int = None,
-            limit: int = None
+        self,
+        order_by: ContactFields = None,
+        order_direction: OrderDirection = None,
+        filters: dict = None,
+        offset: int = None,
+        limit: int = None,
     ):
         query = select(Contact)
         if order_by is not None:
@@ -64,7 +63,9 @@ class ContactsRepository(BaseRepository):
         return [_[0] for _ in contacts.fetchall()]
 
     @handle_database_exceptions
-    async def update_contact(self, contact: ContactBase, contact_to_update: Contact) -> tuple[Contact, list[str]]:
+    async def update_contact(
+        self, contact: ContactBase, contact_to_update: Contact
+    ) -> tuple[Contact, list[str]]:
         updated_fields = []
 
         for key, value in contact.dict().items():

@@ -12,4 +12,3 @@ def get_logger(name):
     logger = logging.getLogger(name)
     logger.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
     return logger
-

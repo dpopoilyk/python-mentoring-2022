@@ -8,7 +8,6 @@ from uuid import uuid4
 
 
 class SqlLiteHandler(logging.StreamHandler):
-
     def __init__(self):
         self._db_engine = create_sqlite_engine(DB_FILE)
         super().__init__()
@@ -16,11 +15,11 @@ class SqlLiteHandler(logging.StreamHandler):
     def format(self, record: logging.LogRecord) -> str:
         insert = logs_table.insert().values(
             {
-                'uid': uuid4().hex,
-                'timestamp': datetime.fromtimestamp(record.created),
-                'type_of_resource': record.type_of_resource,
-                'name_of_resource': record.name_of_resource,
-                'message': record.getMessage()
+                "uid": uuid4().hex,
+                "timestamp": datetime.fromtimestamp(record.created),
+                "type_of_resource": record.type_of_resource,
+                "name_of_resource": record.name_of_resource,
+                "message": record.getMessage(),
             }
         )
         self._db_engine.execute(insert)

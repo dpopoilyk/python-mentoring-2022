@@ -4,8 +4,8 @@ from datetime import datetime
 
 
 class ResourcesTypes(Enum):
-    FILE = 'file'
-    RESOURCE = 'resource'
+    FILE = "file"
+    RESOURCE = "resource"
 
 
 @dataclass

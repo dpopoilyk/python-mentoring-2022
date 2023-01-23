@@ -1,7 +1,5 @@
 from unittest.mock import Mock
 
-import pytest
-
 
 def test_number_of_characters(text_analyser):
     chars_count = text_analyser.number_of_characters()
@@ -21,22 +19,51 @@ def test_number_of_sentences(text_analyser):
 def test_frequency_of_characters(text_analyser):
     freq_chars = text_analyser.frequency_of_characters()
     assert freq_chars == [
-        (' ', 4), ('t', 4), ('e', 3), ('W', 2), ('S', 1), ('u', 1),
-        ('p', 1), ('r', 1), (':', 1), ('s', 1), (',', 1), ('x', 1),
-        ('.', 1), ('O', 1), ('M', 1), ('G', 1), ('!', 1), ('o', 1), (';', 1)
+        (" ", 4),
+        ("t", 4),
+        ("e", 3),
+        ("W", 2),
+        ("S", 1),
+        ("u", 1),
+        ("p", 1),
+        ("r", 1),
+        (":", 1),
+        ("s", 1),
+        (",", 1),
+        ("x", 1),
+        (".", 1),
+        ("O", 1),
+        ("M", 1),
+        ("G", 1),
+        ("!", 1),
+        ("o", 1),
+        (";", 1),
     ]
 
 
 def test_frequency_of_characters_percent(text_analyser):
     freq_chars = text_analyser.frequency_of_characters_percent()
     assert freq_chars == [
-        ('S', 3.571428571428571), ('u', 3.571428571428571), ('p', 3.571428571428571),
-        ('e', 10.714285714285714), ('r', 3.571428571428571), (':', 3.571428571428571),
-        (' ', 14.285714285714285), ('t', 14.285714285714285), ('s', 3.571428571428571),
-        (',', 3.571428571428571), ('x', 3.571428571428571), ('.', 3.571428571428571),
-        ('O', 3.571428571428571), ('M', 3.571428571428571), ('G', 3.571428571428571),
-        ('!', 3.571428571428571), ('W', 7.142857142857142), ('o', 3.571428571428571),
-        (';', 3.571428571428571)]
+        ("S", 3.571428571428571),
+        ("u", 3.571428571428571),
+        ("p", 3.571428571428571),
+        ("e", 10.714285714285714),
+        ("r", 3.571428571428571),
+        (":", 3.571428571428571),
+        (" ", 14.285714285714285),
+        ("t", 14.285714285714285),
+        ("s", 3.571428571428571),
+        (",", 3.571428571428571),
+        ("x", 3.571428571428571),
+        (".", 3.571428571428571),
+        ("O", 3.571428571428571),
+        ("M", 3.571428571428571),
+        ("G", 3.571428571428571),
+        ("!", 3.571428571428571),
+        ("W", 7.142857142857142),
+        ("o", 3.571428571428571),
+        (";", 3.571428571428571),
+    ]
 
 
 def test_avg_word_length(text_analyser):
@@ -51,27 +78,27 @@ def test_avg_sentence_length(text_analyser):
 
 def test_most_used_words(text_analyser):
     most_used = text_analyser.most_used_words()
-    assert most_used == ['super', 'test', 'text', 'omg', 'wow']
+    assert most_used == ["super", "test", "text", "omg", "wow"]
 
 
 def test_longest_words(text_analyser):
     longest = text_analyser.longest_words()
-    assert longest[0] == 'super'
+    assert longest[0] == "super"
 
 
 def test_shortest_words(text_analyser):
     shortest = text_analyser.shortest_words()
-    assert shortest[-1] == 'super'
+    assert shortest[-1] == "super"
 
 
 def test_longest_sentences(text_analyser):
     longest = text_analyser.longest_sentences()
-    assert longest[0] == 'Super: test, text'
+    assert longest[0] == "Super: test, text"
 
 
 def test_shortest_sentences(text_analyser):
     shortest = text_analyser.shortest_sentences()
-    assert shortest[0] == 'OMG'
+    assert shortest[0] == "OMG"
 
 
 def test_number_of_palindromes(text_analyser):
@@ -81,7 +108,7 @@ def test_number_of_palindromes(text_analyser):
 
 def test_longest_palindromes(text_analyser):
     longest_palindromes = text_analyser.longest_palindromes()
-    assert longest_palindromes == ['wow']
+    assert longest_palindromes == ["wow"]
 
 
 def test_is_text_palindrome(text_analyser):
@@ -91,12 +118,12 @@ def test_is_text_palindrome(text_analyser):
 
 def test_reversed_text(text_analyser):
     rev = text_analyser.reversed_text()
-    assert rev == ';WoW !GMO .txet ,tset :repuS'
+    assert rev == ";WoW !GMO .txet ,tset :repuS"
 
 
 def test_reversed_words(text_analyser):
     rev_words = text_analyser.text_reversed_words()
-    assert rev_words == 'WoW; OMG! text. test, Super:'
+    assert rev_words == "WoW; OMG! text. test, Super:"
 
 
 def test_run_full_analysis(text_analyser):

@@ -1,0 +1,30 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Start
+      run: echo Start tests
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install poetry and dependencies
+      run: |
+        python --version
+        python -m pip install poetry
+        poetry config virtualenvs.create false
+        poetry install
+        python -m pip freeze
+    - name: Run unittests
+      run: |
+        cd hometasks/text_analyser
+        python -m pytest
+    - name: Run flake
+      run: |
+        python -m flake8 hometasks

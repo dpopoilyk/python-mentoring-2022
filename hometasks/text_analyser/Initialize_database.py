@@ -4,7 +4,7 @@ import os.path
 from database import create_sqlite_engine, logs_table
 from consts import DB_FILE
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if not os.path.exists(os.path.dirname(DB_FILE)):
         os.mkdir(os.path.dirname(DB_FILE))
 
