@@ -1,11 +1,15 @@
 from datetime import date
 
-from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, asc, desc, Date
 
-from hometasks.announcements_api.core.db import AnnouncementBase, Announcement, AnnouncementFields
-from hometasks.announcements_api.core.decorators import handle_database_exceptions
+from hometasks.announcements_api.core.db import (
+    AnnouncementBase,
+    Announcement,
+    AnnouncementFields,
+)
+from hometasks.announcements_api.core.decorators import \
+    handle_database_exceptions
 from hometasks.announcements_api.core.entities import OrderDirection
 from hometasks.announcements_api.core.exceptions import DatabaseException
 
@@ -18,7 +22,6 @@ class BaseRepository:
 
 
 class AnnouncementsRepository(BaseRepository):
-
     @handle_database_exceptions
     async def _commit_announcement(self, contact: Announcement):
         self._session.add(contact)
@@ -26,19 +29,22 @@ class AnnouncementsRepository(BaseRepository):
         await self._session.refresh(contact)
 
     @handle_database_exceptions
-    async def create_announcement(self, announcement: AnnouncementBase) -> Announcement:
+    async def create_announcement(
+            self,
+            announcement: AnnouncementBase
+    ) -> Announcement:
         announcement = Announcement(**announcement.dict())
         await self._commit_announcement(announcement)
         return announcement
 
     @handle_database_exceptions
     async def get_announcements(
-            self,
-            order_by: AnnouncementFields = None,
-            order_direction: OrderDirection = None,
-            filters: dict = None,
-            offset: int = None,
-            limit: int = None
+        self,
+        order_by: AnnouncementFields = None,
+        order_direction: OrderDirection = None,
+        filters: dict = None,
+        offset: int = None,
+        limit: int = None,
     ):
         query = select(Announcement)
         if order_by is not None:
@@ -73,13 +79,16 @@ class AnnouncementsRepository(BaseRepository):
         return [_[0] for _ in announcements.fetchall()]
 
     @handle_database_exceptions
-    async def update_announcement(self, announcement: AnnouncementBase, announcement_to_update: Announcement) -> tuple[Announcement, list[str]]:
+    async def update_announcement(
+            self, announcement: AnnouncementBase,
+            announcement_to_update: Announcement
+    ) -> tuple[Announcement, list[str]]:
         updated_fields = []
-        not_updatable = (AnnouncementFields.create_date.value, )
+        not_updatable = (AnnouncementFields.create_date.value,)
 
         for key, value in announcement.dict(exclude_unset=True).items():
             if key in not_updatable:
-                raise DatabaseException(f'Field [{key}] is not updatable.')
+                raise DatabaseException(f"Field [{key}] is not updatable.")
             current_value = getattr(announcement_to_update, key)
 
             if current_value != value:

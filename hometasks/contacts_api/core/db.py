@@ -22,9 +22,7 @@ async def init_db():
 def get_session() -> AsyncSession:
     global async_session
     if async_session is None:
-        async_session = sessionmaker(
-            engine, class_=AsyncSession
-        )
+        async_session = sessionmaker(engine, class_=AsyncSession)
         async_session = async_session()
     return async_session
 
@@ -43,6 +41,6 @@ class Contact(ContactBase, table=True):
 
 class ContactFields(Enum):
 
-    name = 'name'
-    phone = 'phone'
-    email = 'email'
+    name = "name"
+    phone = "phone"
+    email = "email"

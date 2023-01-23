@@ -64,8 +64,8 @@ class ErrorResponse(BaseModel):
         def dict(self, *args, **kwargs):
             result = super().dict(*args, **kwargs)
 
-            if not result.get('field'):
-                result.pop('field')
+            if not result.get("field"):
+                result.pop("field")
 
             return result
 
@@ -76,11 +76,11 @@ class ErrorResponse(BaseModel):
     def dict(self, *args, **kwargs):
         result = super().dict(*args, **kwargs)
 
-        if result.get('errors', None) is None:
-            result.pop('errors')
+        if result.get("errors", None) is None:
+            result.pop("errors")
 
-        if result.get('detail', None) is None:
-            result.pop('detail')
+        if result.get("detail", None) is None:
+            result.pop("detail")
 
         return result
 
