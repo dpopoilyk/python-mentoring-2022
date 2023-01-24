@@ -12,4 +12,4 @@ COPY ./hometasks ./hometasks
 
 EXPOSE 8081
 
-CMD ["uvicorn", "hometasks.contacts_api.main:app", "--port", "8081"]
+CMD ["uvicorn", "hometasks.contacts_api.main:app", "--port", "8081", "--host", "0.0.0.0"]
