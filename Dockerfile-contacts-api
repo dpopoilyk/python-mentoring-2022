@@ -10,6 +10,6 @@ RUN poetry config virtualenvs.create false && poetry install
 
 COPY ./hometasks ./hometasks
 
-EXPOSE 8081
+EXPOSE 8080
 
-CMD ["uvicorn", "hometasks.contacts_api.main:app", "--port", "8081", "--host", "0.0.0.0"]
+CMD ["uvicorn", "hometasks.contacts_api.main:app", "--port", "8080", "--host", "0.0.0.0"]
