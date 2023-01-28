@@ -24,7 +24,6 @@ sqlmodel = "^0.0.8"
 typing-extensions = "^4.3.0"
 urllib3 = "^1.26.12"
 uvicorn = "^0.18.3"
-aiosqlite = "^0.18.0"
 
 [tool.poetry.dev-dependencies]
 
