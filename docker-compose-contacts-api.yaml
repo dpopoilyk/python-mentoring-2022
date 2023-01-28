@@ -1,16 +1,16 @@
 version: '3'
 services:
 
-  db:
-    image: postgres:latest
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5432:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
+#  db:
+#    image: postgres:latest
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    ports:
+#      - '5432:5432'
+#    volumes:
+#      - db:/var/lib/postgresql/data
 
   contacts-api:
     build:
@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile-contacts-api
     restart: always
     environment:
-      DATABASE_URL: "postgresql+asyncpg://postgres:postgres@db:5432/contacts"
+      DATABASE_URL: "postgresql+asyncpg://postgres:postgres@localhost:5432/contacts"
     ports:
       - '8080:8080'
 
