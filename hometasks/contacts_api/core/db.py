@@ -2,6 +2,7 @@ import os
 from enum import Enum
 
 from sqlalchemy import UniqueConstraint
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel, Field
@@ -21,7 +22,15 @@ async def init_db():
             os.makedirs(db_dir)
 
     async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.create_all)
+        session = get_session()
+        for table in SQLModel.metadata.tables:
+            try:
+                await session.execute(f"SELECT * from {table} limit 1")
+            except OperationalError as e:
+                if 'no such table' in str(e):
+                    await conn.run_sync(SQLModel.metadata.create_all)
+                else:
+                    raise e
 
 
 def get_session() -> AsyncSession:
