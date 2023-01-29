@@ -15,6 +15,11 @@ async_session = None
 
 
 async def init_db():
+    if engine.name == 'sqlite':
+        file_path = DATABASE_URL.split(':///')[-1]
+        if not os.path.exists(db_dir := os.path.dirname(file_path)):
+            os.makedirs(db_dir)
+
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 

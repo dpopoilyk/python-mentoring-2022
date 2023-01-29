@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, create_model
 
-from hometasks.contacts_api.core.db import ContactBase, ContactFields
+from hometasks.contacts_api.core.db import ContactBase, ContactFields, init_db
 from hometasks.contacts_api.core.decorators import handle_endpoint_errors
 from hometasks.contacts_api.core.entities import OrderDirection, QueryFilter
 from hometasks.contacts_api.core.exceptions import NotFoundException
@@ -113,3 +113,8 @@ async def delete_contact(
     await repository.delete_contact(contact_to_delete)
 
     return Response(status_code=204)
+
+
+@app.on_event('startup')
+async def startup():
+    await init_db()
